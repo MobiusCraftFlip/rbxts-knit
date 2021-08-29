@@ -48,6 +48,8 @@ declare namespace Component {
 	}
 }
 
+type Components = { [key: string]: Component.ComponentClass }
+
 interface Component<T extends Component.ComponentClass> {
 	/** Gets all component instances for the given component class. */
 	GetAll(): Array<T>;
@@ -69,7 +71,7 @@ interface Component<T extends Component.ComponentClass> {
 
 interface ComponentConstructor {
 	/** Get a component from the tag name, which assumes the component class has already been loaded. This will return nil if not found. */
-	readonly FromTag: (tag: string) => Component<Component.ComponentClass>;
+	readonly FromTag: <S, T extends keyof S>(tag: T) => S[T];
 	/** Automatically create components from the component module descendants of the given instance. */
 	readonly Auto: (folder: Instance) => void;
 	new <T extends Component.ComponentClass>(
